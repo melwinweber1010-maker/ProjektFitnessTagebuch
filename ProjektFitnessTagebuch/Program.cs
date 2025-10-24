@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.IO; // Für Dateien (StreamWriter, File)
 using System.Collections.Generic; // Für die List <string> (Trainingsplan)
 using System.Linq; // Brauche ich für die Statistik-Berechnung (.Average())
@@ -20,7 +21,7 @@ namespace ProjektFitnessTagebuch
                 Console.WriteLine("3. Beenden");
                 Console.Write("Deine Wahl: ");
 
-                string wahl = Console.ReadLine();
+                string wahl = Console.ReadLine()!;
 
                 if (wahl == "1")
                 {
@@ -49,9 +50,9 @@ namespace ProjektFitnessTagebuch
         {
             Console.WriteLine("\n--- Neuer Benutzer registrieren ---");
             Console.Write("Waehle einen Benutzernamen: ");
-            string benutzername = Console.ReadLine();
+            string benutzername = Console.ReadLine()!;
             Console.Write("Waehle ein Passwort: ");
-            string passwort = Console.ReadLine();
+            string passwort = Console.ReadLine()!;
 
             using (StreamWriter datei = new StreamWriter("benutzer.txt", true))
             {
@@ -72,9 +73,9 @@ namespace ProjektFitnessTagebuch
         {
             Console.WriteLine("\n--- Benutzer-Login ---");
             Console.Write("Benutzername: ");
-            string eingegebenerName = Console.ReadLine();
+            string eingegebenerName = Console.ReadLine()!;
             Console.Write("Passwort: ");
-            string eingegebenesPasswort = Console.ReadLine();
+            string eingegebenesPasswort = Console.ReadLine()!;
 
             bool eingeloggt = false;
 
@@ -97,12 +98,16 @@ namespace ProjektFitnessTagebuch
 
             if (eingeloggt)
             {
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("\nLogin erfolgreich! Willkommen, " + eingegebenerName + "!");
+                Console.ResetColor();
                 BenutzerMenue(eingegebenerName); // Starte das Menü
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Falscher Benutzername oder falsches Passwort.");
+                Console.ResetColor();
             }
         }
 
@@ -113,16 +118,21 @@ namespace ProjektFitnessTagebuch
         {
             while (true)
             {
-                Console.WriteLine("\n--- Benutzer Menü (" + aktuellerBenutzer + ") ---");
+
+                Console.Clear();
+                Console.Write("\tBenutzer Menü");
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine($" {aktuellerBenutzer}\n\n");
+                Console.ResetColor();
                 Console.WriteLine("1. Profildaten anzeigen / bearbeiten");
                 Console.WriteLine("2. Trainingsplan erstellen");
-                Console.WriteLine("3. Ernährungstagebuch führen");
+                Console.WriteLine("3. Ernährungstagebuch führen 😊");
                 Console.WriteLine("4. Fortschritt verfolgen (Statistik)");
                 Console.WriteLine("5. Kalorienrechner");
                 Console.WriteLine("6. Abmelden"); 
                 Console.Write("Bitte wähle eine Option (1-6): ");
 
-                string benutzerMenüAuswahl = Console.ReadLine();
+                string benutzerMenüAuswahl = Console.ReadLine()!;
 
                 if (benutzerMenüAuswahl == "1")
                 {
@@ -147,7 +157,9 @@ namespace ProjektFitnessTagebuch
                 }
                 else if (benutzerMenüAuswahl == "6")
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Du wurdest ausgeloggt.");
+                    Console.ResetColor();
                     break;
                 }
             }
@@ -177,7 +189,7 @@ namespace ProjektFitnessTagebuch
             Console.WriteLine("Aktivitätslevel: " + zeilen[4] + " (1=wenig, 4=intensiv)");
 
             Console.WriteLine("\nDrücke 'b', um die Daten zu bearbeiten, oder Enter, um zurückzukehren.");
-            string wahl = Console.ReadLine();
+            string wahl = Console.ReadLine()!;
 
             if (wahl == "b")
             {
@@ -189,16 +201,16 @@ namespace ProjektFitnessTagebuch
         {
             Console.WriteLine("\n--- Profil-Daten eingeben ---");
             Console.Write("Bitte gib dein Geschlecht ein ('mann'/'frau'): ");
-            string geschlecht = Console.ReadLine();
+            string geschlecht = Console.ReadLine()!;
 
             Console.Write("Bitte gib dein Alter ein (in Jahren): ");
-            int alter = int.Parse(Console.ReadLine());
+            int alter = int.Parse(Console.ReadLine()!);
 
             Console.Write("Bitte gib dein aktuelles Gewicht ein (in kg): ");
-            double gewicht = double.Parse(Console.ReadLine());
+            double gewicht = double.Parse(Console.ReadLine()!);
 
             Console.Write("Bitte gib deine Größe ein (in cm): ");
-            double größe = double.Parse(Console.ReadLine());
+            double größe = double.Parse(Console.ReadLine()!);
 
             Console.WriteLine("Aktivitätslevel: (Wähle eine Zahl aus)");
             Console.WriteLine("1 - Wenig oder keine Bewegung");
@@ -207,7 +219,7 @@ namespace ProjektFitnessTagebuch
             Console.WriteLine("4. Intensive Bewegung (6-7 Tage pro Woche)");
             Console.Write("Deine Wahl: ");
 
-            int aktivitätslevel = int.Parse(Console.ReadLine());
+            int aktivitätslevel = int.Parse(Console.ReadLine()!);
 
             string dateiName = aktuellerBenutzer + "_profil.txt";
             using (StreamWriter datei = new StreamWriter(dateiName))
@@ -237,8 +249,11 @@ namespace ProjektFitnessTagebuch
 
             while (true)
             {
+
+                Console.Clear();
+
                 Console.Write("Neue Übung (oder 'fertig'): ");
-                string eingabe = Console.ReadLine();
+                string eingabe = Console.ReadLine()!;
 
                 if (eingabe == "fertig")
                 {
@@ -271,6 +286,9 @@ namespace ProjektFitnessTagebuch
 
         static void ErnährungstagebuchFühren(string aktuellerBenutzer)
         {
+
+            Console.Clear();
+
             Console.WriteLine("\n--- Neues Ernährungstagebuch ---");
 
             string datum = DateTime.Now.ToString("dd.MM.yyyy");
@@ -278,26 +296,26 @@ namespace ProjektFitnessTagebuch
 
             
             Console.Write("Heutiges Gewicht (in kg): ");
-            double gewicht = double.Parse(Console.ReadLine());
+            double gewicht = double.Parse(Console.ReadLine()!);
 
             Console.Write("Gesamtkalorienaufnahme (in kcal): ");
-            int kalorien = int.Parse(Console.ReadLine());
+            int kalorien = int.Parse(Console.ReadLine()!);
 
             Console.Write("Heutige Proteinzufuhr (in g): ");
-            int protein = int.Parse(Console.ReadLine());
+            int protein = int.Parse(Console.ReadLine()!);
 
             Console.Write("Heutige Kohlenhydratzufuhr (in g): ");
-            int kohlenhydrate = int.Parse(Console.ReadLine());
+            int kohlenhydrate = int.Parse(Console.ReadLine()!);
 
             Console.Write("Heutige Fettzufuhr (in g): ");
-            int fett = int.Parse(Console.ReadLine());
+            int fett = int.Parse(Console.ReadLine()!);
 
             
             Console.Write("Heutige Schlafdauer (in h): ");
-            double schlaf = double.Parse(Console.ReadLine());
+            double schlaf = double.Parse(Console.ReadLine()!);
 
             Console.Write("Notizen: ");
-            string notizen = Console.ReadLine();
+            string notizen = Console.ReadLine()!;
 
             string dateiName = aktuellerBenutzer + "_Ernährungstagebuch.txt";
 
@@ -306,8 +324,9 @@ namespace ProjektFitnessTagebuch
                 
                 sw.WriteLine(datum + ";" + gewicht + ";" + kalorien + ";" + protein + ";" + kohlenhydrate + ";" + fett + ";" + schlaf + ";" + notizen);
             }
-
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Eintrag erfolgreich gespeichert!");
+            Console.ResetColor();
             Console.WriteLine("Drücke Enter, um zum Menü zurückzukehren.");
             Console.ReadLine();
         }
@@ -317,6 +336,8 @@ namespace ProjektFitnessTagebuch
 
         static void FortschrittVerfolgen(string aktuellerBenutzer)
         {
+            Console.Clear();
+
             Console.WriteLine("\n--- Dein Fortschritt (Ernährung) ---");
             string dateiName = aktuellerBenutzer + "_Ernährungstagebuch.txt";
 
@@ -393,6 +414,8 @@ namespace ProjektFitnessTagebuch
         
         static void KalorienrechnerAnzeigen(string aktuellerBenutzer)
         {
+            Console.Clear();
+
             Console.WriteLine("\n--- Kalorienrechner ---");
             string dateiName = aktuellerBenutzer + "_profil.txt";
 
@@ -443,12 +466,19 @@ namespace ProjektFitnessTagebuch
 
             // Hier werden die Ergebnisse ausgegeben
             Console.WriteLine("\nBasierend auf deinen Profildaten:");
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("- Dein Grundumsatz (BMR) ist: " + Math.Round(bmr, 0) + " kcal/Tag");
+            Console.ResetColor();
             Console.WriteLine("- Dein Gesamt-Kalorienbedarf (Erhaltung) ist: " + Math.Round(gesamtkalorien, 0) + " kcal/Tag");
 
             Console.WriteLine("\nEmpfehlungen:");
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("- Zum Abnehmen (Defizit ~500kcal): " + Math.Round(gesamtkalorien - 500, 0) + " kcal/Tag");
+            Console.ResetColor();
+
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("- Zum Zunehmen (Überschuss ~300kcal): " + Math.Round(gesamtkalorien + 300, 0) + " kcal/Tag");
+            Console.ResetColor();
 
             Console.WriteLine("\nDrücke Enter, um zum Menü zurückzukehren.");
             Console.ReadLine();
